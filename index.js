@@ -95,17 +95,23 @@ class Car {
 
   drive(distance){
 
+    if(distance / this.milesPerGallon <= this.tank){
+      this.odometer += distance;
+      this.tank = this.tank - (distance / this.milesPerGallon)
+    } else {
 
-    let adjustedDistance = distance;
-    while((adjustedDistance / this.milesPerGallon) > this.tank){
-      adjustedDistance -= 1;
+      let adjustedDistance = distance;
+      while((adjustedDistance / this.milesPerGallon) > this.tank){
+        adjustedDistance -= 1; 
+      }
+
+      this.odometer += adjustedDistance;
+      this.tank = this.tank - (adjustedDistance / this.milesPerGallon);
     }
 
-    this.odometer += adjustedDistance;
-    this.tank = this.tank - adjustedDistance;
 
     if (this.tank == 0){
-      return `I ran out of fuel at ${this.tank} miles!`;
+      return `I ran out of fuel at ${this.odometer} miles!`;
     }
   }
 }
@@ -130,7 +136,7 @@ class Lambdasian {
   }
 
   speak(){
-    return `Hello my nmae is ${name}, I am from ${this.location}.`
+    return `Hello my nmae is ${this.name}, I am from ${this.location}.`
   }
 }
 
@@ -189,20 +195,20 @@ class Student extends Lambdasian {
     this.favSubjects = obj.favSubjects;
   }
 
-  listSubject(){
+  listSubjects(){
     let string = ''
     for( let i = 0; i < this.favSubjects.length; i++){
       if(i != (this.favSubjects.length - 1)){
-        string + `${this.favSubjects[i]}, `
+        string += `${this.favSubjects[i]}, `
       } else {
-        string + `${this.favSubjects[i]}`
+        string += `${this.favSubjects[i]}`
       }
     }
 
     return `Loving ${string}`;
   }
 
-  PRAssignement(subject){
+  PRAssignment(subject){
     return `${this.name} has submitted a PR for ${subject}`;
   }
 
@@ -228,16 +234,16 @@ class Student extends Lambdasian {
 class ProjectManager extends Instructor{
   constructor(obj){
     super(obj)
-    this.gradClassname = obj.gradClassName;
+    this.gradClassName = obj.gradClassName;
     this.favInstructor = obj.favInstructor;
   }
 
   standUp(slackChannel){
-    `${this.name} announces to ${slackChannel}`;
+    return `${this.name} announces to ${slackChannel}`;
   }
 
   debugsCode(studentObj, subject){
-    `${this.name} debugs ${studentObj.name}'s cod on ${subject}`;
+    return `${this.name} debugs ${studentObj.name}'s cod on ${subject}`;
   }
 }
 
@@ -249,6 +255,21 @@ class ProjectManager extends Instructor{
       + This method, when called, will check the grade of the student and see if they're ready to graduate from Lambda School
       + If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
 */
+
+const projectManagerAttr = {
+  name: 'Dan',
+  age: 35,
+  location: 'San Francisco',
+  specialty: 'Node',
+  favLanguage: 'JavaScript',
+  catchPhrase: 'Keep doing what you\'re doing!',
+  gradClassName: 'Web25',
+  favInstructor: 'Luis'
+}
+
+const dan = new ProjectManager(projectManagerAttr);
+console.log(dan)
+console.log(dan.standUp("eu"));
 
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
